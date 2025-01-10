@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.service-card {
+    height: 120px; /* Set a fixed height */
+    width: 400px; /* Set a fixed width if needed */
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+     
+    
+    text-align: center;  
+  }
+  
