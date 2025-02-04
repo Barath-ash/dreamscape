@@ -9,13 +9,12 @@ import { IoBed } from "react-icons/io5";
 
 const DetailsPage = () => {
   const location = useLocation();
-  const { imagesContainer } = location.state || {}; // Safely access state
-
+  const { imagesContainer } = location.state || {};  
   if (!imagesContainer) {
     return <p>Error: No image data found.</p>;
   }
 
-  const { header, subheader, room, famousplace, commonplace, placename } = imagesContainer;
+  const { header, subheader, room, famousplace, commonplace, placename,Travelfee,Foodfee,RoomFee } = imagesContainer;
 
   const accommodations = [
     'Travel Booking',
@@ -56,15 +55,19 @@ const DetailsPage = () => {
         <div className="w-2/6 p-2">
           <img src={commonplace} alt="hotel" className="rounded-lg w-full h-52" />
         </div>
-
+        <div className=' flex items-center justify-center w-screen h-max '>
+        <button onClick={() => handleImageClick(src)} className="   transform -translate-x-1/2 px-4 py-4
+         text-xl bg-[#FF8C00]  border-none rounded-md hover:bg-[#FFA500] text-white font-bold transition duration-300 ease-in-out hover:opacity-100" >
+          Book Now  </button>
+         { 
+          const handleImageClick = (image) => {
+    navigate('/details', { state: { imagesContainer: image } });}
+  };
+        </div>
         
       </div>
 
-      <div className=' flex items-center justify-center w-screen h-max '>
-        <button className="   transform -translate-x-1/2 px-4 py-4
-         text-xl bg-[#FF8C00]  border-none rounded-md hover:bg-[#FFA500] text-white font-bold transition duration-300 ease-in-out hover:opacity-100">
-          Book Now  </button>
-        </div>
+      
 
       <p className="py-5 text-xl font-bold">This is an awesome place to stay with incredible services and views.</p>
 

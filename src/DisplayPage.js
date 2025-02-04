@@ -75,21 +75,23 @@ import img14room from './DS_images/Switzerland/switz-room.jpg'
 
 export default function Main() {
   const imagesContainer1 = [
-    { header: img1header, subheader: img1sub, commonplace: img1place, famousplace: img1fplace, room: img1room, placename: 'Hawaii' },
-    { header: img2header, subheader: img2sub, commonplace: img2place, famousplace: img2fplace, room: img2room, placename: 'China' },
-    { header: img3header, subheader: img3sub, commonplace: img3place, famousplace: img3fplace, room: img3room, placename: 'Dubai' },
-    { header: img4header, subheader: img4sub, commonplace: img4place, famousplace: img4fplace, room: img4room, placename: 'Egypt' },
+    { header: img1header, subheader: img1sub, commonplace: img1place, famousplace: img1fplace, room: img1room, placename: 'Hawaii',Travelfee: '1000',Foodfee:'200',RoomFee:"500" },
+    { header: img2header, subheader: img2sub, commonplace: img2place, famousplace: img2fplace, room: img2room, placename: 'China',Travelfee: "1500",Foodfee:"400",RoomFee:"300"  },
+    { header: img3header, subheader: img3sub, commonplace: img3place, famousplace: img3fplace, room: img3room, placename: 'Dubai',Travelfee: "800",Foodfee:"600",RoomFee:"1000"  },
+    { header: img4header, subheader: img4sub, commonplace: img4place, famousplace: img4fplace, room: img4room, placename: 'Egypt',Travelfee: "700",Foodfee:"400",RoomFee:"200"  },
   ];
 
   const imagesContainer2 = [
-    { header: img5header, subheader: img5sub, commonplace: img5place, famousplace: img5fplace, room: img5room, placename: 'Singapore' },
-    { header: img6header, subheader: img6sub, commonplace: img6place, famousplace: img6fplace, room: img6room, placename: 'Thailand' },
-    { header: img7header, subheader: img7sub, commonplace: img7place, famousplace: img7fplace, room: img7room, placename: 'NewYork' },
-    { header: img8header, subheader: img8sub, commonplace: img8place, famousplace: img8fplace, room: img8room, placename: 'Bangkok' },
-    { header: img9header, subheader: img9sub, commonplace: img9place, famousplace: img9fplace, room: img9room, placename: 'Australia' },
-    { header: img10header, subheader: img10sub, commonplace: img10place, famousplace: img10fplace, room: img10room, placename: 'Canada' },
-    { header: img11header, subheader: img11sub, commonplace: img11place, famousplace: img11fplace, room: img11room, placename: 'Germany' },
-    { header: img12header, subheader: img12sub, commonplace: img12place, famousplace: img12fplace, room: img12room, placename: 'Malaysia' },
+    { header: img5header, subheader: img5sub, commonplace: img5place, famousplace: img5fplace, room: img5room, placename: 'Singapore',Travelfee: "800",Foodfee:"600",RoomFee:"1000"  },
+    { header: img6header, subheader: img6sub, commonplace: img6place, famousplace: img6fplace, room: img6room, placename: 'Thailand',Travelfee: "700",Foodfee:"400",RoomFee:"200"  },
+    { header: img7header, subheader: img7sub, commonplace: img7place, famousplace: img7fplace, room: img7room, placename: 'NewYork' ,Travelfee: "1500",Foodfee:"400",RoomFee:"300" },
+    { header: img8header, subheader: img8sub, commonplace: img8place, famousplace: img8fplace, room: img8room, placename: 'Bangkok',Travelfee: '1000',Foodfee:'200',RoomFee:"500" },
+    { header: img9header, subheader: img9sub, commonplace: img9place, famousplace: img9fplace, room: img9room, placename: 'Australia' ,Travelfee: "800",Foodfee:"600",RoomFee:"1000"},
+    { header: img10header, subheader: img10sub, commonplace: img10place, famousplace: img10fplace, room: img10room, placename: 'Canada',Travelfee: "1500",Foodfee:"400",RoomFee:"300"  },
+    { header: img11header, subheader: img11sub, commonplace: img11place, famousplace: img11fplace, room: img11room, placename: 'Germany',Travelfee: "700",Foodfee:"400",RoomFee:"200"   },
+    { header: img12header, subheader: img12sub, commonplace: img12place, famousplace: img12fplace, room: img12room, placename: 'Malaysia' ,Travelfee: '1000',Foodfee:'200',RoomFee:"500" },
+    // { header: img13header, subheader: img13sub, commonplace: img13place, famousplace: img13fplace, room: img13room, placename: 'Paris' },
+    // { header: img14header, subheader: img14sub, commonplace: img14place, famousplace: img14fplace, room: img14room, placename: 'Switzerland' }
   ];
 
   return (
