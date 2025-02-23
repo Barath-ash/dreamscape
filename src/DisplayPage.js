@@ -97,7 +97,7 @@ export default function Main() {
   return (
     <>
       <Navbar />
-      <Search />
+      <Search images={imagesContainer2} />
       <MostWanted value={"The places visited the most this year. Grab the tickets and enjoy with your loved ones"} names={"Top Choices"} images={imagesContainer1} />
       <MostWanted value={"The place to visit during this winter break with your friends and family "} names={"Seasoned Trips"} images={imagesContainer2} />
       

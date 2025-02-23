@@ -1,6 +1,5 @@
 import React from 'react';
-import '../index.css'
-// import { FaceSmileIcon } from '@heroicons/react/24/solid';
+import '../index.css';
 
 const services = [
   {
@@ -19,22 +18,24 @@ const services = [
 
 const Service = () => {
   return (
-    <div className="p-5"> 
-      <div className="flex justify-between items-center">
-        <div>
-          <h2>We Provide Best</h2>
-          <h2>Customer Experience</h2>
-        </div>
-        <div>
-          <p>|| We ensure that our customers have the best trip experience across the world</p>
-        </div>
+    <div className="p-10 bg-gray-900 text-white ">
+      {/* Header Section */}
+      <div className="text-center mb-8">
+        <h2 className="text-3xl font-extrabold text-white">We Provide Best</h2>
+        <h2 className="text-3xl font-extrabold text-blue-400">Customer Experience</h2>
+        <p className="mt-2 text-gray-300">
+          || We ensure that our customers have the best trip experience across the world
+        </p>
       </div>
-      <div className="flex justify-center gap-2 flex-wrap mt-5">
+
+      {/* Service Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {services.map((service, index) => (
-          <div key={index} className="bg-gray-100 p-4 rounded service-card">
-         
-            <h4 className="text-lg font-semibold">{service.title}</h4>
-            <p className="text-sm">{service.description}</p>
+          <div 
+            key={index} 
+            className="bg-gray-800 p-6 rounded-xl shadow-lg border border-gray-700 hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+            <h4 className="text-lg font-bold text-white">{service.title}</h4>
+            <p className="text-gray-300 mt-2">{service.description}</p>
           </div>
         ))}
       </div>
