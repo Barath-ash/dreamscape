@@ -26,9 +26,12 @@ import img8header from './DS_images/Bangkok/bgk-national-museum.jpg';
 import img8place from './DS_images/Bangkok/bgk-Chatuchak-Market.jpeg';
 import img8fplace from './DS_images/Bangkok/bgk-grand_palace-main.jpg';
 import img8room from './DS_images/Bangkok/bgk-room.png';
-
-
-
+ 
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+ import './index.css'
+import { ClerkProvider } from '@clerk/clerk-react'
+import TravelBot from "./Bot/Travelbot"
 
 
 
@@ -44,21 +47,26 @@ export default function App(){
       ];
 
 
+      // const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 
+      // if (!PUBLISHABLE_KEY) {
+      //   throw new Error("Missing Publishable Key")
+      // }
 
-
+      
+      // console.log("Publishable Key:", PUBLISHABLE_KEY);
+      
 
     return(
-        <>
-        
+       <>
            <Navbar/> 
            <Header/>
            <Service/>
            {/* <MostWanted/> */}
            <MostWanted value={"The place to visit during this winter break with your friends and family "} names={"Seasoned Trips"} images={imagesContainer2} />
-
+           <TravelBot/>
            <Subcribe/>
            <Footer/>
-        </>
+           </>
     )
 }
