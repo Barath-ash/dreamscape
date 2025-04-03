@@ -4,7 +4,8 @@ const bcrypt = require("bcryptjs");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const cookieParser = require("cookie-parser");
-const connectDB = require("./mongo"); 
+const connectDB = require("./mongo");
+const User = require("./src/models/User"); // Importing the existing User model
 
 dotenv.config();
 const app = express();
@@ -15,13 +16,10 @@ app.use(cookieParser());
 connectDB();
 const SECRET_KEY = process.env.SECRET_KEY;
 
-const users = new Map(); // Temporary storage
-
-// Middleware to verify JWT
+// Middleware to verify token (for protected routes)
 const verifyToken = (req, res, next) => {
   const token = req.cookies.token || req.headers.authorization?.split(" ")[1];
-
-  if (!token) return res.status(401).json({ message: "Access Denied: No Token Provided" });
+  if (!token) return res.status(401).json({ message: "No Token Provided" });
 
   jwt.verify(token, SECRET_KEY, (err, decoded) => {
     if (err) return res.status(403).json({ message: "Invalid Token" });
@@ -30,53 +28,58 @@ const verifyToken = (req, res, next) => {
   });
 };
 
-// Signup Route
+// ✅ **Signup Route (Uses Existing `User` Model)**
 app.post("/signup", async (req, res) => {
-  const { email, password } = req.body;
-  if (users.has(email)) return res.status(400).json({ message: "User already exists" });
+  try {
+    const { name, email, password } = req.body;
+    if (!name || !email || !password) return res.status(400).json({ message: "All fields required" });
 
-  const hashedPassword = await bcrypt.hash(password, 10);
-  users.set(email, hashedPassword);
+    const existingUser = await User.findOne({ email });
+    if (existingUser) return res.status(400).json({ message: "User already exists" });
 
-  const token = jwt.sign({ email }, SECRET_KEY, { expiresIn: "7d" });
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = new User({ name, email, password: hashedPassword }); // Now stores name
+    await newUser.save();
 
-  res.cookie("token", token, { httpOnly: true, secure: false, maxAge: 7 * 24 * 60 * 60 * 1000 });
-  res.status(201).json({ message: "Signup successful", token });
+    const token = jwt.sign({ email, name }, SECRET_KEY, { expiresIn: "7d" });
+    res.json({ message: "Signup successful", token, user: { name, email } });
+  } catch (err) {
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
 });
 
-// Login Route
+
+// ✅ **Login Route (Uses Existing `User` Model)**
 app.post("/login", async (req, res) => {
-  const { email, password } = req.body;
-  if (!users.has(email)) return res.status(400).json({ message: "User not found, please sign up" });
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) return res.status(400).json({ message: "All fields required" });
 
-  const isMatch = await bcrypt.compare(password, users.get(email));
-  if (!isMatch) return res.status(401).json({ message: "Invalid credentials" });
+    const user = await User.findOne({ email });
+    if (!user) return res.status(400).json({ message: "User not found" });
 
-  const token = jwt.sign({ email }, SECRET_KEY, { expiresIn: "7d" });
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.status(401).json({ message: "Invalid credentials" });
 
-  res.cookie("token", token, { httpOnly: true, secure: false, maxAge: 7 * 24 * 60 * 60 * 1000 });
-  res.json({ message: "Login successful", token });
+    const token = jwt.sign({ email, name: user.name }, SECRET_KEY, { expiresIn: "7d" });
+
+    res.json({ message: "Login successful", token, user: { email, name: user.name } });
+  } catch (err) {
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
 });
 
-// Check Session (Auto-login on refresh)
-app.get("/check-session", (req, res) => {
-  const token = req.cookies.token;
 
-  if (!token) return res.json({ isAuthenticated: false });
-
-  jwt.verify(token, SECRET_KEY, (err, decoded) => {
-    if (err) return res.json({ isAuthenticated: false });
-    res.json({ isAuthenticated: true, email: decoded.email, token });
-  });
-});
-
-// Logout Route
+// ✅ **Logout Route**
 app.post("/logout", (req, res) => {
-  res.clearCookie("token");
   res.json({ message: "Logout successful" });
 });
 
-// Start Server
+// ✅ **Protected Route Example**
+app.get("/protected", verifyToken, (req, res) => {
+  res.json({ message: "You have access!", user: req.user });
+});
+
 app.listen(8000, () => {
   console.log("Server running on port 8000...");
 });

@@ -1,51 +1,30 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import axios from "axios";
+import { createContext, useContext, useState, useEffect } from "react";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState(localStorage.getItem("token") ? { token: localStorage.getItem("token") } : null);
 
-    async function checkSession() {
-        try {
-            const token = localStorage.getItem("token");
-            if (!token) {
-                setUser(null);
-                return;
-            }
+    const login = (token) => {
+      localStorage.setItem("token", token);
+      setUser({ token });
+    };
 
-            const res = await axios.get("http://localhost:8000/check-session", {
-                headers: { Authorization: `Bearer ${token}` },
-                withCredentials: true, 
-            });
+ // Logout function
+ const logout = () => {
+  localStorage.removeItem("token");
+  setUser(null);
+ };
 
-            if (res.data.isAuthenticated) {
-                setUser(res.data.email);
-            } else {
-                localStorage.removeItem("token");
-                setUser(null);
-            }
-        } catch (error) {
-            console.error("Session check failed:", error);
-            localStorage.removeItem("token");
-            setUser(null);
-        }
-    }
+ useEffect(() => {
+  if (localStorage.getItem("token")) setUser(true);
+ }, []);
 
-    useEffect(() => {
-        checkSession();
-    }, []);
-
-    function login(token) {
-        localStorage.setItem("token", token);
-        checkSession();
-    }
-
-    return (
-        <AuthContext.Provider value={{ user, login, setUser }}>
-            {children}
-        </AuthContext.Provider>
-    );
+ return (
+  <AuthContext.Provider value={{ user, login, logout }}>
+   {children}
+  </AuthContext.Provider>
+ );
 };
 
 export const useAuth = () => useContext(AuthContext);
