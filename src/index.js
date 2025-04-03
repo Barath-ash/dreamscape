@@ -16,11 +16,11 @@ root.render(
    <BrowserRouter>
      
      <Routes>
-      <Route path='/' element={<App></App>}/>
+      <Route path='/Dashboard' element={<App></App>}/>
       <Route path='/Main' element={<DisplayPage></DisplayPage>}/>
       <Route path='/details' element={<Detail></Detail>}/>
       <Route path='/payment' element={<Payment></Payment>}/>
-      <Route path='/login' element={<Login></Login>}/>
+      <Route path='/' element={<Login></Login>}/>
       <Route path='/signup' element={<Signup></Signup>}/>
       
       
