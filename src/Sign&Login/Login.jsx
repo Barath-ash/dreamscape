@@ -1,11 +1,11 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../AuthContext"; 
+import { useAuth } from "../AuthContext";
 
 const Login = () => {
-    const [email, setemail] = useState("");
-    const [password, setpassword] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const navigate = useNavigate();
     const { login } = useAuth();
 
@@ -13,14 +13,15 @@ const Login = () => {
         e.preventDefault();
         try {
             const res = await axios.post("http://localhost:8000/login", { email, password });
-            if (res.data.message === "Success") {
+            if (res.data.token) {
                 login(res.data.token);
                 navigate("/dashboard");
             } else {
-                alert(res.data);
+                alert("Invalid credentials");
             }
-        } catch (e) {
-            alert("Error logging in");
+        } catch (error) {
+            console.error("Login failed:", error);
+            alert("Login failed");
         }
     }
 
@@ -28,9 +29,9 @@ const Login = () => {
         <div className="login">
             <h1>Login</h1>
             <form onSubmit={submit}>
-                <input type="email" placeholder="Email" onChange={(e) => setemail(e.target.value)} required />
-                <input type="password" placeholder="Password" onChange={(e) => setpassword(e.target.value)} required />
-                <button type="submit">Login</button>
+                <input type="email" placeholder="Enter your Email" onChange={(e) => setEmail(e.target.value)} required />
+                <input type="password" placeholder="Enter your Password" onChange={(e) => setPassword(e.target.value)} required />
+                <button type="submit" className="bg-black text-white cursor-pointer">Submit</button>
             </form>
             <p>Don't have an account? <Link to="/signup">Signup</Link></p>
         </div>

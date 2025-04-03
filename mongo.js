@@ -1,24 +1,16 @@
 const mongoose = require("mongoose");
-mongoose
-  .connect("mongodb://localhost:27017/DREAMDATA")
-  .then(() => {
-    console.log("Connection Established");
-  })
-  .catch(() => {
-    console.log("Connection Failed");
-  });
 
-const newscheme = mongoose.Schema({
-  email: {
-    type: String,
-    required: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-});
+const connectDB = async () => {
+    try {
+        await mongoose.connect("mongodb://localhost:27017/DREAMDATA", {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        });
+        console.log("MongoDB Connected");
+    } catch (error) {
+        console.error("MongoDB Connection Failed:", error);
+        process.exit(1);
+    }
+};
 
-const collection = mongoose.model("collection", newscheme);
-
-module.exports = collection;
+module.exports = connectDB;
