@@ -1,47 +1,57 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Signup = () => {
-  const [Email, setEmail] = useState('');
-  const [Pass, setPass] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  async function submit(e){
+  async function submit(e) {
     e.preventDefault();
-    try{
-        await axios.post("http://localhost:8000/",{
-            Email,Pass
-        })
-    }catch(e){
-        console.log(e);
+    try {
+      const res = await axios.post("http://localhost:8000/signup", {
+        email,
+        password,
+      });
 
+      if (res.data === "Exist") {
+        alert("User already exists");
+      } else if (res.data === "User Created") {
+        navigate("/Dashboard", { state: { id: email } });
+      }
+    } catch (error) {
+      alert("Error occurred while signing up");
+      console.error("Error:", error);
     }
   }
 
   return (
     <div className="Signup">
       <h1>Signup</h1>
-      <form action="POST">
+      <form onSubmit={submit}>
         <input
           type="email"
           placeholder="Enter your Email ID:"
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
         <input
           type="password"
           placeholder="Enter your Password:"
-          onChange={(e) => {
-            setPass(e.target.value);
-          }}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
         />
-        <input type="submit" onClick={submit}/>
+        <button type="submit" className="bg-black text-white cursor-pointer">
+          Submit
+        </button>
       </form>
       <br />
       <p>OR</p>
       <br />
-      <p>Already have account--{">"} <Link to={"/login"}>Login</Link></p>
+      <p>
+        Already have an account? <Link to="/">Login</Link>
+      </p>
     </div>
   );
 };
