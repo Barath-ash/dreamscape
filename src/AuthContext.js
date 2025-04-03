@@ -5,51 +5,44 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        async function checkSession() {
-            try {
-                const token = localStorage.getItem("token");
-                if (!token) {
-                    setUser(null);
-                    setLoading(false);
-                    return;
-                }
+    async function checkSession() {
+        try {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                setUser(null);
+                return;
+            }
 
-                const res = await axios.get("http://localhost:8000/check-session", {
-                    headers: { Authorization: `Bearer ${token}` },
-                });
+            const res = await axios.get("http://localhost:8000/check-session", {
+                headers: { Authorization: `Bearer ${token}` },
+                withCredentials: true, 
+            });
 
-                if (res.data.isAuthenticated) {
-                    setUser(res.data.email);
-                } else {
-                    localStorage.removeItem("token");
-                    setUser(null);
-                }
-            } catch (error) {
-                console.error("Session check failed:", error);
+            if (res.data.isAuthenticated) {
+                setUser(res.data.email);
+            } else {
                 localStorage.removeItem("token");
                 setUser(null);
             }
-            setLoading(false);
+        } catch (error) {
+            console.error("Session check failed:", error);
+            localStorage.removeItem("token");
+            setUser(null);
         }
+    }
 
+    useEffect(() => {
         checkSession();
     }, []);
 
-    const login = (token) => {
+    function login(token) {
         localStorage.setItem("token", token);
-        setUser(true);
-    };
-
-    const logout = () => {
-        localStorage.removeItem("token");
-        setUser(null);
-    };
+        checkSession();
+    }
 
     return (
-        <AuthContext.Provider value={{ user, login, logout, loading }}>
+        <AuthContext.Provider value={{ user, login, setUser }}>
             {children}
         </AuthContext.Provider>
     );

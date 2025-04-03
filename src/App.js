@@ -30,8 +30,7 @@ import img8room from './DS_images/Bangkok/bgk-room.png';
 import React from 'react'
 import ReactDOM from 'react-dom/client'
  import './index.css'
-import { ClerkProvider } from '@clerk/clerk-react'
-import TravelBot from "./Bot/Travelbot"
+ import TravelBot from "./Bot/Travelbot"
 
 
 

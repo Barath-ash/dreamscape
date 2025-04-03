@@ -1,17 +1,23 @@
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../AuthContext";
+import { useAuth } from "../AuthContext"; // Adjust the import path
 
 const Logout = () => {
-    const { logout } = useAuth();
+    const { setUser } = useAuth();
     const navigate = useNavigate();
 
-    useEffect(() => {
-        logout();
-        navigate("/");
-    }, [logout, navigate]);
+    const handleLogout = async () => {
+        try {
+            await axios.post("http://localhost:8000/logout", {}, { withCredentials: true });
 
-    return <h2>Logging out...</h2>;
+            localStorage.removeItem("token");
+            setUser(null);
+            navigate("/");
+        } catch (error) {
+            console.error("Logout failed:", error);
+        }
+    };
+
+    return <button onClick={handleLogout}>Logout</button>;
 };
 
 export default Logout;
