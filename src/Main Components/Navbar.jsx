@@ -11,7 +11,7 @@ const Navbar = () => {
   };
 
   const navbar = [
-    { title: "Home", link: "/" },
+    { title: "Home", link: "/Dashboard" },
     { title: "Collections", link: "/Main" },
     { title: "Contact", link: "/Contact" },
   ];

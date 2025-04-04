@@ -13,6 +13,7 @@ import ProtectedRoute from "./Sign&Login/ProtectedRoute";
 import { Toaster } from "react-hot-toast";
 import "./index.css";
 import Contact from "./Main Components/Contact";
+import Terms from "./Payment Component/Terms";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -29,6 +30,7 @@ root.render(
           <Route path="/main" element={<ProtectedRoute><DisplayPage /></ProtectedRoute>} />
           <Route path="/details" element={<ProtectedRoute><Detail /></ProtectedRoute>} />
           <Route path="/payment" element={<ProtectedRoute><Payment /></ProtectedRoute>} />
+          <Route path="/terms" element={<ProtectedRoute><Terms /></ProtectedRoute>} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

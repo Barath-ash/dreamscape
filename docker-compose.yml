@@ -1,0 +1,22 @@
+ 
+services:
+  backend:
+    build: .
+    container_name: my-mern-backend
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mongodb
+    env_file:
+      - .env  # Load variables from .env file
+
+  mongodb:
+    image: mongo:7.0.14
+    container_name: my-mongo-db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:

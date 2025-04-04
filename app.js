@@ -6,6 +6,7 @@ const dotenv = require("dotenv");
 const cookieParser = require("cookie-parser");
 const connectDB = require("./mongo");
 const User = require("./src/models/User"); // Importing the existing User model
+const stripe = require("stripe")("sk_test_51R9mFaQB0UAKZb71A15ChCHGw7fJNCGrNeAaVqwsfsOTa9GKUeResoZNQyhyQAfu1k9NEz6Lzy1hKXcS3cOCeL5v00aYfNwPzb");
 
 dotenv.config();
 const app = express();
@@ -38,7 +39,7 @@ app.post("/signup", async (req, res) => {
     if (existingUser) return res.status(400).json({ message: "User already exists" });
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({ name, email, password: hashedPassword }); // Now stores name
+    const newUser = new User({ name, email, password: hashedPassword });
     await newUser.save();
 
     const token = jwt.sign({ email, name }, SECRET_KEY, { expiresIn: "7d" });
@@ -47,7 +48,6 @@ app.post("/signup", async (req, res) => {
     res.status(500).json({ message: "Server error", error: err.message });
   }
 });
-
 
 // ✅ **Login Route (Uses Existing `User` Model)**
 app.post("/login", async (req, res) => {
@@ -69,7 +69,6 @@ app.post("/login", async (req, res) => {
   }
 });
 
-
 // ✅ **Logout Route**
 app.post("/logout", (req, res) => {
   res.json({ message: "Logout successful" });
@@ -80,6 +79,38 @@ app.get("/protected", verifyToken, (req, res) => {
   res.json({ message: "You have access!", user: req.user });
 });
 
+// ✅ **Stripe Payment Route**
+app.post("/create-checkout-session", async (req, res) => {
+  try {
+    const { total } = req.body;
+    if (!total) return res.status(400).json({ message: "Total amount required" });
+
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      mode: "payment",
+      success_url: "http://localhost:3000/confirmation",
+      cancel_url: "http://localhost:3000/payment",
+      line_items: [
+        {
+          price_data: {
+            currency: "usd",
+            product_data: {
+              name: "Travel Booking",
+            },
+            unit_amount: Math.round(total * 100), // Convert to cents
+          },
+          quantity: 1,
+        },
+      ],
+    });
+
+    res.json({ url: session.url });
+  } catch (error) {
+    res.status(500).json({ message: "Payment error", error: error.message });
+  }
+});
+
+// ✅ **Server Start**
 app.listen(8000, () => {
   console.log("Server running on port 8000...");
 });

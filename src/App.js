@@ -2,8 +2,7 @@ import Navbar from "./Main Components/Navbar";
 import Header from "./Main Components/Header";
 import Service from "./Main Components/Service";
 import MostWanted from "./Search Components/Mostwanted";
-import TravelBot from "./Bot/Travelbot";
-import Subcribe from "./Main Components/Subcribe";
+ import Subcribe from "./Main Components/Subcribe";
 import Footer from "./Main Components/Footer";
 import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
@@ -43,11 +42,12 @@ export default function App() {
     }, []);
 
     const imagesContainer2 = [
-        { header: img5header, subheader: img5sub, commonplace: img5place, famousplace: img5fplace, room: img5room, placename: 'Singapore' },
-        { header: img6header, subheader: img6sub, commonplace: img6place, famousplace: img6fplace, room: img6room, placename: 'Thailand' },
-        { header: img7header, subheader: img7sub, commonplace: img7place, famousplace: img7fplace, room: img7room, placename: 'NewYork' },
-        { header: img8header, subheader: img8sub, commonplace: img8place, famousplace: img8fplace, room: img8room, placename: 'Bangkok' },
+        { header: img5header, subheader: img5sub, commonplace: img5place, famousplace: img5fplace, room: img5room, placename: 'Singapore', Travelfee: "95", Foodfee: "35", RoomFee: "80" },
+        { header: img6header, subheader: img6sub, commonplace: img6place, famousplace: img6fplace, room: img6room, placename: 'Thailand', Travelfee: "65", Foodfee: "50", RoomFee: "40" },
+        { header: img7header, subheader: img7sub, commonplace: img7place, famousplace: img7fplace, room: img7room, placename: 'NewYork', Travelfee: "120", Foodfee: "60", RoomFee: "110" },
+        { header: img8header, subheader: img8sub, commonplace: img8place, famousplace: img8fplace, room: img8room, placename: 'Bangkok', Travelfee: "80", Foodfee: "45", RoomFee: "70" },
     ];
+    
 
     return (
         <>
